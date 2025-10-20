@@ -5,6 +5,7 @@ import { PixelButton } from '@/components/ui/pixel-button';
 import { TextAnimate } from '@/components/ui/text-animate';
 import { ASCIIArt } from '@/components/ui/ascii-art';
 import { CommandPrompt } from '@/components/ui/command-prompt';
+import {Kbd} from "@/components/ui/kbd";
 
 export const HeroSection = () => {
   return (
@@ -17,15 +18,10 @@ export const HeroSection = () => {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <div className="flex flex-col items-start">
-                      {/*<div className="w-full overflow-hidden max-h-[110px] text-xs  mb-4">*/}
-                      {/*    <ASCIIArt*/}
-                      {/*        art="terminal"*/}
-                      {/*        color="var(--color-accent)"*/}
-                      {/*        animate={false}*/}
-                      {/*        animateSpeed={30}*/}
-                      {/*        className="transform scale-75 font-mono whitespace-pre origin-top-left"*/}
-                      {/*    />*/}
-                      {/*</div>*/}
+                      <div className="w-full  max-h-[110px] text-xs  mb-10">
+                          <ASCIIArt art="terminal" animate={true} animateSpeed={20} className="text-[var(--color-accent)] transform translate-x-1/2 p-5 border-[var(--color-accent)] border-1 scale-75 rounded-md text-xs w-1/2" />
+
+                      </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-accent)] tracking-tight">
                       <TextAnimate text="Majd Alali" />
                     </h1>
@@ -87,7 +83,7 @@ export const HeroSection = () => {
                     <p className="text-[var(--color-accent)] text-sm font-mono animate-pulse">Press any key to continue...</p>
           </div>
                   <div className="text-[var(--color-text-dim)] text-sm font-mono">
-                    <p>Press <kbd className="px-1 border border-[var(--color-text-dim)]">?</kbd> to view keyboard shortcuts</p>
+                      <p>Press <Kbd className="bg-[var(--color-surface)] text-[var(--color-text border-[var(--color-border)] border px-1 rounded-sm" >Shift</Kbd> + <Kbd className="bg-[var(--color-surface)] text-[var(--color-text border-[var(--color-border)] border px-1 rounded-sm" >?</Kbd> to view keyboard shortcuts</p>
         </div>
       </div>
                     </div>

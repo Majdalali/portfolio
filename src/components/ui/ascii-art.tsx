@@ -8,6 +8,7 @@ type AsciiArtType =
   | 'terminal' 
   | 'computer' 
   | 'github'
+    | 'fairy'
   | 'code';
 
 interface AsciiArtProps {
@@ -49,18 +50,25 @@ export function ASCIIArt({
         break;
         case 'terminal':
             setArtContent(`
-┌───────────────────────────────┐
-│                               │
-│   $ whoami                    │
-│   > developer                 │
-│                               │
-│   $ ls -la projects           │
-│   > ...                       │
-│                               │
-└───────────────────────────────┘
-    `);
-            break;
+$ whoami
+> developer
 
+$ ls -la projects
+> ...
+`);
+
+            break;
+        case 'fairy':
+            setArtContent(`
+   .'.         .'.
+   |  \\       /  |
+    '.  \\ | /  .'
+      '. \\|/ .'
+        '-- --'
+        .'/|\\'. ^~DanDan
+       '..'|'..'
+`);
+            break;
         case 'computer':
         setArtContent(`
          ,-----------------.
@@ -101,6 +109,7 @@ export function ASCIIArt({
                  \`-'
         `);
         break;
+
       case 'code':
         setArtContent(`
          {
@@ -114,6 +123,7 @@ export function ASCIIArt({
          }
         `);
         break;
+
       default:
         setArtContent('');
     }

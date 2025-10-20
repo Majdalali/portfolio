@@ -22,12 +22,12 @@ export function Header() {
       <nav className="container mx-auto flex items-center justify-between px-4 py-4">
         {/* Logo */}
         <Link href="/" className="font-mono text-xl font-bold text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)]">
-          <span className="text-[var(--color-text-secondary)]">~/</span>portfolio
+          <span className="text-[var(--color-text-secondary)]">~/</span>majdalali
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-6 md:flex">
-          <ThemeSwitcher />
+        <div className="hidden items-center gap-6 lg:flex">
+
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -52,11 +52,12 @@ export function Header() {
               </Link>
             );
           })}
+            <ThemeSwitcher />
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)] md:hidden"
+          className="text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)] lg:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -80,7 +81,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t-2 border-[var(--color-border)] bg-[var(--color-surface)] md:hidden">
+        <div className="border-t-2 border-[var(--color-border)] bg-[var(--color-surface)] lg:hidden">
           <div className="container mx-auto space-y-4 px-4 py-4">
             {navItems.map((item) => {
               const isActive = pathname === item.href;

@@ -21,6 +21,7 @@ module.exports = {
       animation: {
         blink: 'blink 1s step-end infinite',
         scanline: 'scanline 8s linear infinite',
+        'skill-fill': 'skillFill 1s ease-out forwards',
       },
       keyframes: {
         blink: {
@@ -30,6 +31,10 @@ module.exports = {
         scanline: {
           '0%': { transform: 'translateY(-100%)' },
           '100%': { transform: 'translateY(100%)' },
+        },
+        skillFill: {
+          '0%': { width: '0%' },
+          '100%': { width: 'var(--skill-percentage, 0%)' },
         },
       },
     },

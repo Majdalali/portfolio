@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { SkipToContent } from '@/components/ui/skip-to-content';
 import { ToastProvider } from '@/components/ui/keyboard-toast';
 import "./globals.css";
+import {TooltipProvider} from "@/components/ui/tooltip";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} ${ibmPlexMono.variable} font-sans antialiased`}>
         <ThemeProvider>
           <ToastProvider>
+              <TooltipProvider>
             <KeyboardNavProvider>
               <SkipToContent />
               <Header />
@@ -44,6 +46,7 @@ export default function RootLayout({
               </main>
               <Footer />
           </KeyboardNavProvider>
+              </TooltipProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>

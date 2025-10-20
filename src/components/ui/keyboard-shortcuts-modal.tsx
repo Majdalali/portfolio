@@ -5,6 +5,7 @@ import { KeyboardHint } from './keyboard-hint';
 import { PixelButton } from './pixel-button';
 import { TerminalWindow } from './terminal-window';
 import { CommandPrompt } from './command-prompt';
+import {Kbd} from "@/components/ui/kbd";
 
 interface ShortcutCategory {
   name: string;
@@ -62,7 +63,7 @@ export function KeyboardShortcutsModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4  backdrop-blur-sm">
       <div 
-        className="w-full max-w-3xl max-h-[90vh] overflow-auto"
+        className="w-full max-w-4xl max-h-[90vh] overflow-auto"
         role="dialog"
         aria-labelledby="keyboard-shortcuts-title"
         aria-modal="true"
@@ -104,11 +105,11 @@ export function KeyboardShortcutsModal({ onClose }: { onClose: () => void }) {
                   </div>
                 ))}
               </div>
-              
+
               <p className="mt-8 text-[var(--color-text-secondary)] text-sm">
-                Press <kbd className="px-1 py-0.5 border border-[var(--color-accent)] text-[var(--color-accent)] font-mono text-xs">?</kbd> at any time to show this help panel.
+                  <span>Press <Kbd className="bg-[var(--color-surface)] text-[var(--color-accent)] border-[var(--color-border)] border px-1 rounded-sm" >Shift</Kbd> + <Kbd className="bg-[var(--color-surface)] text-[var(--color-accent)]  border-[var(--color-border)] border px-1 rounded-sm" >?</Kbd> to view keyboard shortcuts</span>
               </p>
-              
+
               <div className="mt-6 flex justify-center">
                 <PixelButton 
                   onClick={onClose}
