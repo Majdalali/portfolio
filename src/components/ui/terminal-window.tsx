@@ -4,6 +4,8 @@ interface TerminalWindowProps {
   showControls?: boolean
   scanlines?: boolean
   className?: string
+  onClick?: () => void
+  onClose?: () => void
 }
 
 export function TerminalWindow({
@@ -12,14 +14,19 @@ export function TerminalWindow({
   showControls = true,
   scanlines = true,
   className = '',
+  onClick,
+  onClose,
 }: TerminalWindowProps) {
   return (
-    <div className={`relative border-2  border-[var(--color-border)] bg-[var(--color-surface)] ${className}`}>
+    <div
+      className={`relative border-2 border-[var(--color-border)] bg-[var(--color-surface)] ${className} ${onClick ? 'cursor-pointer' : ''}`}
+      onClick={onClick}
+    >
       {/* Title Bar */}
       {showControls && (
         <div className="flex items-center justify-between border-b-2 border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2">
           <div className="flex gap-2">
-            <div className="h-3 w-3 rounded-full bg-red-500" />
+            <div className="h-3 w-3 rounded-full bg-red-500 cursor-pointer" onClick={(e) => { e.stopPropagation(); onClose && onClose(); }} />
             <div className="h-3 w-3 rounded-full bg-yellow-500" />
             <div className="h-3 w-3 rounded-full bg-green-500" />
           </div>

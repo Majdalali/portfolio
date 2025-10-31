@@ -13,7 +13,7 @@ export const PixelButton = forwardRef<HTMLButtonElement, PixelButtonProps>(
     const baseStyles = 'font-mono font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-offset-2 focus:ring-offset-[var(--color-background)]'
     
     const variants = {
-      primary: 'bg-[var(--color-accent)] text-[var(--color-background)] hover:shadow-[var(--glow-md)] hover:scale-105 active:scale-95',
+      primary: 'bg-[var(--color-accent)] border-2 border-[var(--color-accent)]  text-[var(--color-background)] hover:shadow-[var(--glow-md)] hover:scale-105 active:scale-95 ',
       secondary: 'border-2 border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] hover:shadow-[var(--glow-sm)]',
       ghost: 'text-[var(--color-accent)] hover:bg-[var(--color-surface)] hover:shadow-[var(--glow-sm)]',
     }

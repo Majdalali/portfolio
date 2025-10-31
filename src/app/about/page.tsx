@@ -1,3 +1,4 @@
+'use client';
 import { TerminalWindow } from '@/components/ui/terminal-window';
 import { CommandPrompt } from '@/components/ui/command-prompt';
 import { TextAnimate } from '@/components/ui/text-animate';
@@ -27,18 +28,10 @@ export default function AboutPage() {
                 </h1>
                 <div className="text-[var(--color-text-secondary)] leading-relaxed">
                   <p className="mb-4">
-                    <TextAnimate
-                      text="I'm a full-stack developer specializing in building exceptional digital experiences. Currently, I'm focused on creating accessible, pixel-perfect web applications with modern technologies."
-                      delay={1000}
-                      speed={30}
-                    />
+                      I'm a full-stack developer specializing in building unique digital experiences. Currently, I'm focused on creating accessible web applications with modern technologies.
                   </p>
                   <p>
-                    <TextAnimate
-                      text="When I'm not at the computer, I enjoy [your hobbies/interests]."
-                      delay={3000}
-                      speed={30}
-                    />
+                      When I'm not at work, I enjoy watching twitch, playing video games (SKY:COTL & CS2) and listening to music.
                   </p>
                 </div>
               </div>

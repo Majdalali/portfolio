@@ -41,9 +41,12 @@ export default function RootLayout({
             <KeyboardNavProvider>
               <SkipToContent />
               <Header />
+                <div className="my-14"></div>
+
               <main id="main-content" className="min-h-[calc(100vh-4rem-12rem)]">
                 {children}
               </main>
+                <div className="my-14"></div>
               <Footer />
           </KeyboardNavProvider>
               </TooltipProvider>
