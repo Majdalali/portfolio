@@ -184,7 +184,7 @@ export const HeroSection = () => {
                                     <div className="space-y-1">
                                         <div className="flex justify-between text-[var(--color-text-secondary)] text-sm">
                                             <span>Projects Completed</span>
-                                            <span>25+</span>
+                                            <span>5+</span>
                                         </div>
                                         <div className="w-full bg-[var(--color-background)] h-2 rounded-sm overflow-hidden">
                                             <div
@@ -202,7 +202,7 @@ export const HeroSection = () => {
                                         <div className="w-full bg-[var(--color-background)] h-2 rounded-sm overflow-hidden">
                                             <div
                                                 className="bg-[var(--color-accent-secondary)] h-full"
-                                                style={{ width: "90%" }}
+                                                style={{ width: "85%" }}
                                             ></div>
                                         </div>
                                     </div>
@@ -214,7 +214,7 @@ export const HeroSection = () => {
                                         </div>
                                         <div className="w-full bg-[var(--color-background)] h-2 rounded-sm overflow-hidden">
                                             <div
-                                                className="bg-[var(--color-success)] h-full"
+                                                className="bg-[var(--color-primary-foreground)] h-full"
                                                 style={{ width: "98%" }}
                                             ></div>
                                         </div>

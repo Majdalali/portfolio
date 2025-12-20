@@ -19,6 +19,7 @@
   --color-text-primary: #e6e6e6;
   --color-text-secondary: #a0a0a0;
   --color-text-dim: #6b7280;
+    --color-crimson: #dc143c;
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -31,6 +32,7 @@
   --glow-sm: 0 0 5px var(--color-accent);
   --glow-md: 0 0 10px var(--color-accent);
   --glow-lg: 0 0 20px var(--color-accent);
+    --glow-sm-blood: 0 0 5px var(--color-crimson);
 
   /* Animations */
   --transition-fast: 200ms ease-in-out;

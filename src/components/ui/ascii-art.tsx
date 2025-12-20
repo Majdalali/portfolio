@@ -116,7 +116,7 @@ $ ls -la projects
            "name": "developer",
            "skills": [
              "typescript",
-             "react",
+             "svelte",
              "nextjs"
            ],
            "isAvailable": true

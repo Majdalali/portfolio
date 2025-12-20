@@ -58,24 +58,17 @@ export default function AboutPage() {
 
               <div className="space-y-6">
                 <TimelineEntry
-                  year="2020 - Present"
-                  title="Senior Developer"
-                  company="Tech Company, Inc."
-                  description="Led development of key projects, mentored junior developers, and implemented modern tech stack including React, TypeScript, and Node.js."
-                />
-
-                <TimelineEntry
-                  year="2017 - 2020"
+    year="April 2024 - Present"
                   title="Full Stack Developer"
-                  company="Digital Solutions Ltd."
-                  description="Built responsive web applications, created RESTful APIs, and maintained database architecture."
+    company="Furqan Group for Education and IT (Remote)"
+  description="Built a payroll system with fingerprint authentication (Svelte, Express, Supabase), maintained an Angular/NestJS e-service platform, and created a proof-of-concept with Zoho Catalyst. Provided support for PHP Laravel student registration pages, improving UI/UX. Optimized applications using TypeScript and Tailwind CSS."
                 />
 
                 <TimelineEntry
-                  year="2015 - 2017"
-                  title="Frontend Developer"
-                  company="Creative Agency"
-                  description="Designed and developed interactive websites using HTML, CSS, and JavaScript."
+    year="Sept 2023 - Feb 2024"
+    title="Intern & Freelance Developer"
+    company="Applied Industrial Analytics Research Group (Johor, Malaysia)"
+    description="Developed an academic management system for UTM University master's students using Vue.js (Composition API), Express.js, and Firebase. Designed UI with Figma and implemented real-time updates with Socket.io."
                 />
               </div>
             </section>
@@ -88,18 +81,18 @@ export default function AboutPage() {
 
               <div className="space-y-6">
                 <TimelineEntry
-                  year="2012 - 2015"
-                  title="Bachelor of Science in Computer Science"
-                  company="University Name"
-                  description="Graduated with honors. Specialized in software engineering and web development."
+                  year="2019 - 2024"
+                  title="Bachelor of Computer Science, Computer Networks And Security"
+                  company="University of Technology Malaysia [3.71/4.0 GPA]"
+                  description="Graduated with honors. Specialized in networks and IT."
                 />
 
-                <TimelineEntry
-                  year="2022"
-                  title="Advanced React & Redux"
-                  company="Online Certification"
-                  description="In-depth study of advanced React patterns, state management, and performance optimization."
-                />
+                {/*<TimelineEntry*/}
+                {/*  year="2022"*/}
+                {/*  title="Advanced React & Redux"*/}
+                {/*  company="Online Certification"*/}
+                {/*  description="In-depth study of advanced React patterns, state management, and performance optimization."*/}
+                {/*/>*/}
               </div>
             </section>
 
@@ -110,14 +103,14 @@ export default function AboutPage() {
               </h2>
 
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-                <InterestItem icon="🎮" title="Gaming" description="Strategy & RPGs" />
+                <InterestItem icon="🎮" title="Gaming" description="Adventure & FPS" />
                 <InterestItem icon="🏔️" title="Hiking" description="Mountain trails" />
                 <InterestItem icon="📚" title="Reading" description="Sci-fi & fantasy" />
-                <InterestItem icon="🎸" title="Music" description="Playing guitar" />
-                <InterestItem icon="🍳" title="Cooking" description="International cuisine" />
-                <InterestItem icon="✈️" title="Travel" description="Exploring new places" />
-                <InterestItem icon="📷" title="Photography" description="Nature & urban" />
-                <InterestItem icon="🎨" title="Digital Art" description="Pixel art creation" />
+                <InterestItem icon="🎸" title="Music" description="Radiohead & Fleetwwood Mac" />
+                <InterestItem icon="🍳" title="Cooking" description="Bakery" />
+                <InterestItem icon="🎬" title="Doccumentaries" description="History & Wars" />
+                  <InterestItem icon="🩸️" title="True Crime" description="Podcasts & Youtube" />
+                  <InterestItem icon="📺" title="Movies & TV Shows" description="The Wire &  The Sopranos" />
               </div>
             </section>
 
@@ -134,7 +127,7 @@ export default function AboutPage() {
                     </PixelButton>
                   </Link>
                   <Link href="/contact">
-                    <PixelButton variant="primary" size="md">
+                    <PixelButton  variant="primary" size="md">
                       Contact Me
                     </PixelButton>
                   </Link>
@@ -182,12 +175,16 @@ function InterestItem({
   description: string;
 }) {
   return (
-    <div className="group p-4 border border-[var(--color-border)] hover:border-[var(--color-accent)] hover:shadow-[var(--glow-sm)] transition-all duration-300">
-      <div className="text-2xl mb-2">{icon}</div>
-      <h3 className="font-bold text-[var(--color-text-primary)]">{title}</h3>
-      <p className="text-xs text-[var(--color-text-dim)] group-hover:text-[var(--color-accent)] transition-colors">
-        {description}
-      </p>
+    <div className={`group p-4 border ${
+      title === 'True Crime'
+      ? ' hover:border-rose-900 hover:shadow-[var(--glow-sm-blood)]'
+      : 'border-[var(--color-border)] hover:shadow-[var(--glow-sm)] hover:border-[var(--color-accent)]'
+    }  transition-all duration-300`}>
+        <div className="text-2xl mb-2">{icon}</div>
+        <h3 className="font-bold text-[var(--color-text-primary)]">{title}</h3>
+        <p className="text-xs text-[var(--color-text-dim)] group-hover:text-[var(--color-accent)] transition-colors">
+            {description}
+        </p>
     </div>
   );
 }
