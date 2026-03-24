@@ -1,30 +1,32 @@
-    'use client';
+"use client";
 
-import { useState } from 'react';
-import { TerminalWindow } from '@/components/ui/terminal-window';
-import { CommandPrompt } from '@/components/ui/command-prompt';
-import { PixelButton } from '@/components/ui/pixel-button';
-import { ASCIIArt } from '@/components/ui/ascii-art';
-    import {
-        Tooltip,
-        TooltipContent,
-        TooltipTrigger,
-    } from "@/components/ui/tooltip"
+import { useState } from "react";
+import { TerminalWindow } from "@/components/ui/terminal-window";
+import { CommandPrompt } from "@/components/ui/command-prompt";
+import { PixelButton } from "@/components/ui/pixel-button";
+import { ASCIIArt } from "@/components/ui/ascii-art";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function ContactPage() {
   // Form state
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Copy to clipboard function
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     // You would typically show a toast notification here
-      window.showKeyboardToast(`Copied to clipboard: ${text}`)
+    if (window.showKeyboardToast) {
+      window.showKeyboardToast(`Copied to clipboard: ${text}`);
+    }
   };
 
   // Form submission handler
@@ -33,45 +35,45 @@ export default function ContactPage() {
 
     // Basic validation
     if (!name || !email || !message) {
-      setError('All fields are required.');
+      setError("All fields are required.");
       return;
     }
 
     if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setError('Please enter a valid email address.');
+      setError("Please enter a valid email address.");
       return;
     }
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
-        const response = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                access_key: "ae280102-a600-4c2c-90f8-17e59522bbc7",
-                email: email,
-                name: name,
-                message: message,
-            }),
-        });
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "ae280102-a600-4c2c-90f8-17e59522bbc7",
+          email: email,
+          name: name,
+          message: message,
+        }),
+      });
 
-        const result = await response.json();
-        if (result.success) {
-            setSubmitted(true);
-            setName('');
-      setEmail('');
-      setMessage('');
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+        setName("");
+        setEmail("");
+        setMessage("");
 
-            await new Promise(resolve => setTimeout(resolve, 5000));
-        } else {
-      setError('Failed to send message. Please try again.');
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            setError('');
-    }
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      } else {
+        setError("Failed to send message. Please try again.");
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        setError("");
+      }
     } catch (err) {
-      setError('Failed to send message. Please try again.');
+      setError("Failed to send message. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -82,11 +84,8 @@ export default function ContactPage() {
     <div className="container mx-auto px-4 py-8">
       <TerminalWindow title="contact.sh" className="mb-8">
         <div className="space-y-6">
-          <CommandPrompt
-            command="./send-message.sh"
-            typeAnimation={true}
-          />
-          
+          <CommandPrompt command="./send-message.sh" typeAnimation={true} />
+
           <div className="mt-8">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Contact Form */}
@@ -110,7 +109,8 @@ export default function ContactPage() {
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <h2 className="text-xl font-bold text-[var(--color-accent)] mb-6">
-                      <span className="text-[var(--color-text-dim)]">$</span> Contact Form
+                      <span className="text-[var(--color-text-dim)]">$</span>{" "}
+                      Contact Form
                     </h2>
 
                     {/* Name Field */}
@@ -165,7 +165,6 @@ export default function ContactPage() {
                       </div>
                     )}
 
-
                     {/* Submit Button */}
                     <div className="pt-2">
                       <PixelButton
@@ -173,12 +172,12 @@ export default function ContactPage() {
                         variant="primary"
                         loading={loading}
                       >
-                        {loading ? 'Sending...' : 'Send Message'}
+                        {loading ? "Sending..." : "Send Message"}
                       </PixelButton>
-              </div>
+                    </div>
                   </form>
                 )}
-                  </div>
+              </div>
 
               {/* Contact Info */}
               <div className="lg:w-72 order-1 lg:order-2">
@@ -190,7 +189,7 @@ export default function ContactPage() {
                       color="var(--color-accent)"
                       className="text-xs"
                     />
-                      </div>
+                  </div>
                   <div>
                     <h3 className="font-bold text-[var(--color-accent)] mb-3">
                       Contact Methods
@@ -205,26 +204,39 @@ export default function ContactPage() {
                           majdalali@proton.com
                         </span>
                         <button
-                          onClick={() => copyToClipboard('majdalali@proton.com')}
+                          onClick={() =>
+                            copyToClipboard("majdalali@proton.com")
+                          }
                           className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
                           title="Copy to clipboard"
                         >
-                          <svg className="w-4 h-4 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                          <svg
+                            className="w-4 h-4 text-[var(--color-accent)]"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                            ></path>
                           </svg>
                         </button>
                       </div>
                     </div>
                     {/* Location */}
                     <div className="mb-4">
-      <div className="font-mono text-xs text-[var(--color-text-dim)] mb-1">
+                      <div className="font-mono text-xs text-[var(--color-text-dim)] mb-1">
                         $ echo $LOCATION
-      </div>
+                      </div>
                       <div className="pl-4">
                         <span className="font-mono text-sm text-[var(--color-text-secondary)]">
                           Homs, Syria
-        </span>
-      </div>
+                        </span>
+                      </div>
                     </div>
 
                     {/* Availability */}
@@ -259,18 +271,19 @@ export default function ContactPage() {
                         command="open-linkedin.sh"
                       />
 
-
-                        <Tooltip>
-                            <TooltipTrigger><SocialLink
-                                name="Twitter"
-                                disabled={true}
-                                url="https://twitter.com/yourusername"
-                                command="open-twitter.sh"
-                            /></TooltipTrigger>
-                            <TooltipContent>
-                                <p>Not an Elon Fan</p>
-                            </TooltipContent>
-                        </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <SocialLink
+                            name="Twitter"
+                            disabled={true}
+                            url="https://twitter.com/yourusername"
+                            command="open-twitter.sh"
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Not an Elon Fan</p>
+                        </TooltipContent>
+                      </Tooltip>
 
                       <SocialLink
                         name="Personal Blog"
@@ -290,24 +303,43 @@ export default function ContactPage() {
   );
 }
 
-function SocialLink({ name, url, command, disabled = false }: { name: string; url: string; command: string, disabled?: boolean }) {
+function SocialLink({
+  name,
+  url,
+  command,
+  disabled = false,
+}: {
+  name: string;
+  url: string;
+  command: string;
+  disabled?: boolean;
+}) {
   if (disabled) {
     return (
-      <div className="block  p-2 " >
-          <div className="font-mono text-xs text-[var(--color-text-dim)]  mb-1">
-              $ ./{command}
-          </div>
-          <div className="pl-4 flex items-center">
-          <span className="font-mono text-sm text-gray-500">
-          {name}
-        </span>
-          <svg className="w-3 h-3 ml-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-              </svg>
-          </div>
+      <div className="block  p-2 ">
+        <div className="font-mono text-xs text-[var(--color-text-dim)]  mb-1">
+          $ ./{command}
+        </div>
+        <div className="pl-4 flex items-center">
+          <span className="font-mono text-sm text-gray-500">{name}</span>
+          <svg
+            className="w-3 h-3 ml-2 text-gray-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            ></path>
+          </svg>
+        </div>
       </div>
     );
-}
+  }
 
   return (
     <a
@@ -323,8 +355,19 @@ function SocialLink({ name, url, command, disabled = false }: { name: string; ur
         <span className="font-mono text-sm text-[var(--color-accent)] group-hover:text-[var(--color-accent-secondary)] transition-colors">
           {name}
         </span>
-        <svg className="w-3 h-3 ml-2 text-[var(--color-accent)] group-hover:text-[var(--color-accent-secondary)] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+        <svg
+          className="w-3 h-3 ml-2 text-[var(--color-accent)] group-hover:text-[var(--color-accent-secondary)] transition-colors"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+          ></path>
         </svg>
       </div>
     </a>

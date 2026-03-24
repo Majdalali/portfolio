@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 // Type declaration for our global toast function
 declare global {
   interface Window {
-    showKeyboardToast: (message: string) => void;
+    showKeyboardToast?: (message: string) => void;
   }
 }
 
@@ -23,7 +23,10 @@ interface KeyAction {
 /**
  * Hook that registers keyboard shortcuts with visual feedback
  */
-export function useKeyboardFeedback(keyActions: KeyAction[], dependencies: any[] = []) {
+export function useKeyboardFeedback(
+  keyActions: KeyAction[],
+  dependencies: any[] = [],
+) {
   // Debug: Log all registered actions
   // console.log('Registered key actions:', keyActions.map(ka => `${ka.key}${ka.ctrlKey ? '+Ctrl' : ''}`));
   useEffect(() => {
@@ -38,12 +41,16 @@ export function useKeyboardFeedback(keyActions: KeyAction[], dependencies: any[]
       }
 
       // Find matching action
-      const matchedAction = keyActions.find(keyAction => {
+      const matchedAction = keyActions.find((keyAction) => {
         const keyMatch = e.key.toLowerCase() === keyAction.key.toLowerCase();
-        const ctrlMatch = keyAction.ctrlKey === undefined || e.ctrlKey === keyAction.ctrlKey;
-        const metaMatch = keyAction.metaKey === undefined || e.metaKey === keyAction.metaKey;
-        const shiftMatch = keyAction.shiftKey === undefined || e.shiftKey === keyAction.shiftKey;
-        const altMatch = keyAction.altKey === undefined || e.altKey === keyAction.altKey;
+        const ctrlMatch =
+          keyAction.ctrlKey === undefined || e.ctrlKey === keyAction.ctrlKey;
+        const metaMatch =
+          keyAction.metaKey === undefined || e.metaKey === keyAction.metaKey;
+        const shiftMatch =
+          keyAction.shiftKey === undefined || e.shiftKey === keyAction.shiftKey;
+        const altMatch =
+          keyAction.altKey === undefined || e.altKey === keyAction.altKey;
 
         // Check if we have a Ctrl+Key combination match
         if (keyMatch && ctrlMatch && keyAction.ctrlKey && e.ctrlKey) {
@@ -76,7 +83,7 @@ export function useKeyboardFeedback(keyActions: KeyAction[], dependencies: any[]
       }
     };
 
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
   }, dependencies);
 }
