@@ -21,6 +21,7 @@ interface ProjectDetailProps {
     impact?: string;
     techDetails?: string;
     screenshots?: string[];
+    codeSnippet?: string;
   };
   onClose: () => void;
   onNavigatePrevious?: () => void;
@@ -296,28 +297,7 @@ export function ProjectDetailModal({
                       <h4 className="text-md font-bold text-[var(--color-accent)] mb-4">Code Snippet</h4>
                       <div className="bg-[var(--color-background)] border border-[var(--color-border)] p-4 rounded overflow-x-auto">
                         <pre className="font-mono text-sm text-[var(--color-text-primary)]">
-                          <code>{`// Example code snippet
-function ProjectComponent() {
-  const [data, setData] = useState([]);
-  
-  useEffect(() => {
-    // Fetch project data
-    const fetchData = async () => {
-      const response = await api.get('/data');
-      setData(response.data);
-    };
-    
-    fetchData();
-  }, []);
-  
-  return (
-    <div className="project-container">
-      {data.map(item => (
-        <ProjectItem key={item.id} data={item} />
-      ))}
-    </div>
-  );
-}`}</code>
+                          <code>{project.codeSnippet || '// No code snippet available'}</code>
                         </pre>
                       </div>
                     </div>

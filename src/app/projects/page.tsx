@@ -17,77 +17,166 @@ const projectsData = [
     image: '/projects/terminal-portfolio.png',
     demo: 'https://example.com',
     code: 'https://github.com/username/project',
-    featured: true
+    featured: true,
+    problem: 'Traditional portfolios lack personality and fail to showcase technical creativity. Developers need a way to stand out while demonstrating their skills.',
+    solution: 'Built an interactive terminal-styled portfolio with keyboard navigation, multiple themes, and retro aesthetics using Next.js 15, TypeScript, and Tailwind CSS v4.',
+    impact: 'A unique, memorable portfolio that demonstrates both design sensibility and technical proficiency. Features global keyboard shortcuts, theme switching, and accessible navigation.',
+    techDetails: 'This project uses Next.js 15 App Router with TypeScript for type safety. Tailwind CSS v4 provides the styling foundation with CSS variables for theming. The keyboard navigation system is built with React context and global event listeners. Animations are CSS-based with prefers-reduced-motion support.',
+    codeSnippet: `// Keyboard Navigation Provider
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+export function KeyboardNavProvider({ children }) {
+  const router = useRouter();
+  const [showTerminalModal, setShowTerminalModal] = useState(false);
+
+  useEffect(() => {
+    const handleKeyShortcuts = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement) return;
+      
+      switch (e.key.toLowerCase()) {
+        case 'h': router.push('/'); break;
+        case 'p': router.push('/projects'); break;
+        case 'm': setShowTerminalModal(prev => !prev); break;
+        case 't': toggleTheme(); break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyShortcuts);
+    return () => window.removeEventListener('keydown', handleKeyShortcuts);
+  }, [router]);
+
+  return <>{children}</>;
+}`
   },
   {
     id: 2,
-    title: 'ecommerce-platform.js',
-    description: 'Full-stack e-commerce platform with inventory management, payment processing, and admin dashboard.',
-    tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-    image: '/projects/ecommerce.png',
+    title: 'payroll-attendance.svelte',
+    description: 'Comprehensive payroll and attendance management system for educational institutions. Streamlines employee tracking, payroll processing, and administrative workflows.',
+    tags: ['SvelteKit', 'TypeScript', 'Node.js', 'Express', 'Supabase', 'SQL', 'Mariadb'],
+    image: '/projects/payroll-attendance.png',
     demo: 'https://example.com',
     code: 'https://github.com/username/project',
-    featured: true
+    featured: true,
+    problem: 'Manual attendance and payroll management is time-consuming, error-prone, and lacks transparency. Institutions struggle with tracking employee hours, generating accurate payrolls, and maintaining compliance.',
+    solution: 'Automated attendance tracking and payroll generation using a web-based interface and RESTful APIs. Key technologies include SvelteKit for the frontend, Node.js/Express for the backend, Supabase for data storage, and Handlebars for dynamic email notifications.',
+    impact: 'Significant reduction in manual errors and administrative workload. Faster payroll processing and reporting. Improved transparency and auditability. Enhanced user experience for both administrators and employees.',
+    techDetails: 'Frontend uses SvelteKit with TypeScript and Vite. Backend is Node.js/Express with Supabase integration. Features include automated attendance workflows, email notifications with dynamic Handlebars templates, PDF report generation, Swagger API documentation, role-based authentication middleware, and a robust deployment pipeline using GitHub Actions and PM2.',
+    codeSnippet: `// Modular API Routing - routes/index.js
+const express = require('express');
+const router = express.Router();
+
+const authMiddleware = require('../middleware/auth');
+const roleMiddleware = require('../middleware/role');
+
+// Route modules
+const attendanceRoutes = require('./attendance');
+const payrollRoutes = require('./payroll');
+const employeeRoutes = require('./employee');
+const reportsRoutes = require('./reports');
+
+// Apply authentication to all routes
+router.use(authMiddleware);
+
+// Mount route modules
+router.use('/attendance', attendanceRoutes);
+router.use('/payroll', roleMiddleware(['admin', 'hr']), payrollRoutes);
+router.use('/employees', employeeRoutes);
+router.use('/reports', roleMiddleware(['admin']), reportsRoutes);
+
+module.exports = router;`
   },
   {
     id: 3,
-    title: 'ai-chatbot.py',
-    description: 'Intelligent chatbot built with machine learning that can answer questions and provide assistance.',
-    tags: ['Python', 'TensorFlow', 'NLP', 'API'],
-    image: '/projects/chatbot.png',
+    title: 'fcms.vue',
+    description: 'Faculty Course Management System for universities. Digitizes academic processes including course evaluations, user management, notifications, and file uploads with role-based access.',
+    tags: ['Vue.js', 'TypeScript', 'Node.js', 'Express', 'Firebase', 'Socket.io', 'Tailwind'],
+    image: '/projects/fcms.png',
     demo: 'https://example.com',
     code: 'https://github.com/username/project',
-    featured: false
+    featured: true,
+    problem: 'Manual academic management processes are time-consuming, error-prone, and lack transparency. Institutions need a unified platform to manage course evaluations, user roles, notifications, and file submissions efficiently.',
+    solution: 'A modular, full-stack web application with RESTful APIs for all core operations, real-time notifications using Socket.io, role-based access control (admin, coordinator, lecturer, student), and Firebase integration for authentication and file storage.',
+    impact: 'Streamlined academic workflows, reducing manual paperwork. Improved transparency and accountability in course evaluations. Enhanced user experience for students, lecturers, and admins. Scalable architecture ready for future expansion.',
+    techDetails: 'Backend uses Node.js/Express with Firebase Admin SDK for authentication and storage. Frontend is Vue.js with Vite, TypeScript, and Tailwind CSS. Features real-time communication via Socket.io, modular code organization (controllers, models, middleware, services), file upload management for CVs and documents, and responsive design with SCSS custom styles.',
+    codeSnippet: `// src/middleware/roleAuth.js
+function roleAuth(roles) {
+  return function (req, res, next) {
+    if (roles.includes(req.user.role)) {
+      next();
+    } else {
+      res.status(403).send('Forbidden');
+    }
+  };
+}
+
+module.exports = roleAuth;
+
+// Usage in routes
+const roleAuth = require('../middleware/roleAuth');
+
+// Only admins and coordinators can access
+router.get('/evaluations', 
+  roleAuth(['admin', 'coordinator']), 
+  evaluationController.getAll
+);
+
+// Only lecturers can submit grades
+router.post('/grades', 
+  roleAuth(['lecturer']), 
+  gradeController.submit
+);`
   },
   {
     id: 4,
-    title: 'social-network.rb',
-    description: 'A social networking platform with real-time messaging, news feed, and user profiles.',
-    tags: ['Ruby', 'Rails', 'PostgreSQL', 'WebSockets'],
-    image: '/projects/social.png',
+    title: 'eyebaituna.dart',
+    description: 'Parental control mobile app for monitoring and safeguarding children\'s online activity. Features real-time content filtering, website blocking, bandwidth management, and browsing analytics.',
+    tags: ['Flutter', 'Dart', 'PHP', 'MySQL', 'GetX', 'REST API'],
+    image: '/projects/eyebaituna.png',
     demo: 'https://example.com',
     code: 'https://github.com/username/project',
-    featured: false
-  },
-  {
-    id: 5,
-    title: 'crypto-tracker.go',
-    description: 'Real-time cryptocurrency price tracker with alerts and portfolio management.',
-    tags: ['Go', 'React', 'WebSockets', 'Charts'],
-    image: '/projects/crypto.png',
-    demo: 'https://example.com',
-    code: 'https://github.com/username/project',
-    featured: true
-  },
-  {
-    id: 6,
-    title: 'weather-app.jsx',
-    description: 'Weather application that shows forecasts, historical data, and weather maps.',
-    tags: ['React', 'API', 'Geolocation', 'PWA'],
-    image: '/projects/weather.png',
-    demo: 'https://example.com',
-    code: 'https://github.com/username/project',
-    featured: false
-  },
-  {
-    id: 7,
-    title: 'task-manager.ts',
-    description: 'Productivity application for managing tasks, projects, and team collaboration.',
-    tags: ['TypeScript', 'React', 'Redux', 'Firebase'],
-    image: '/projects/task-manager.png',
-    demo: 'https://example.com',
-    code: 'https://github.com/username/project',
-    featured: false
-  },
-  {
-    id: 8,
-    title: 'fitness-tracker.swift',
-    description: 'Mobile application for tracking workouts, nutrition, and health metrics.',
-    tags: ['Swift', 'iOS', 'HealthKit', 'Core Data'],
-    image: '/projects/fitness.png',
-    demo: 'https://example.com',
-    code: 'https://github.com/username/project',
-    featured: false
+    featured: true,
+    problem: 'Parents face challenges protecting children from harmful online content while managing screen time. Lack of tools to enforce time limits, track browsing behavior, and control multiple devices makes manual oversight impractical.',
+    solution: 'Cross-platform mobile app with automated 5-category content filtering, custom website blocking, device bandwidth management, scheduled internet access, and visual analytics dashboard. Built with Flutter frontend and PHP/MySQL REST API backend.',
+    impact: 'Zero manual intervention for category-based blocking. Visual analytics replace raw log reading. Set-and-forget scheduling eliminates constant monitoring. Single codebase reduces development time by 50%. PDF reports enable sharing with guardians.',
+    techDetails: 'Flutter SDK with Dart for iOS/Android. GetX for state management. Syncfusion Charts for analytics visualization. PHP REST API with MySQL. bcrypt password hashing. SharedPreferences for offline persistence. Lottie animations and responsive UI with Sizer package.',
+    codeSnippet: `// GetX Controller for user state management
+class InAppUser extends GetxController {
+  final Rx<User> _inAppUser = User(
+    id: 0, 
+    username: '', 
+    email: '', 
+    password: ''
+  ).obs;
+
+  User get user => _inAppUser.value;
+
+  getUserInfo() async {
+    User? getUserInfoLocalStorage = await RememberUser.readUserInfo();
+    _inAppUser.value = getUserInfoLocalStorage!;
+  }
+}
+
+// API Service with centralized endpoints
+class ApiService {
+  static const hostConn = 'https://eyebaituna.000webhostapp.com';
+  
+  static Future<List<String>> fetchBannedURLs(int userId) async {
+    final response = await http.get(
+      Uri.parse('\$banURLS?user_id=\$userId')
+    );
+    
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success']) {
+        return List<String>.from(data['urls']);
+      }
+    }
+    throw Exception('Failed to fetch banned URLs');
+  }
+}`
   },
 ];
 
@@ -252,11 +341,7 @@ export default function ProjectsPage() {
         <ProjectDetailModal
           project={{
             ...modalProject,
-            problem: "This project aimed to solve the challenge of [specific problem].",
-            solution: "I implemented a [specific solution] that utilized [technologies/approaches].",
-            impact: "The result was a [X]% improvement in performance and enhanced user experience.",
-            techDetails: "This project was built using a modern stack including React for the frontend, Node.js for the backend, and MongoDB for the database. I implemented [specific technical features] to solve [specific challenges].",
-            screenshots: [modalProject.image, modalProject.image, modalProject.image] // Placeholder for multiple screenshots
+            screenshots: [modalProject.image] // Single screenshot for now
           }}
           onClose={handleCloseModal}
           onNavigatePrevious={handleNavigateToPrevious}

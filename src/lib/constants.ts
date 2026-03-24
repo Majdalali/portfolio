@@ -26,6 +26,7 @@ export const KEYBOARD_SHORTCUTS = [
   { keys: ['K'], action: 'Scroll up' },
   { keys: ['T'], action: 'Toggle theme' },
   { keys: ['?'], action: 'Show keyboard shortcuts' },
+  { keys: ['M'], action: 'Open terminal' },
   { keys: ['Esc'], action: 'Close modal/overlay' },
 ]
 
