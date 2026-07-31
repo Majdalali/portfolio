@@ -201,12 +201,10 @@ export default function ContactPage() {
                       </div>
                       <div className="group relative pl-4 flex items-center">
                         <span className="font-mono text-sm text-[var(--color-text-secondary)]">
-                          majdalali@proton.com
+                          majdalali@proton.me
                         </span>
                         <button
-                          onClick={() =>
-                            copyToClipboard("majdalali@proton.com")
-                          }
+                          onClick={() => copyToClipboard("majdalali@proton.me")}
                           className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
                           title="Copy to clipboard"
                         >

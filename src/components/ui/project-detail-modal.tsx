@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { TerminalWindow } from "./terminal-window";
 import { CommandPrompt } from "./command-prompt";
 import { PixelButton } from "./pixel-button";
-import { ASCIIArt } from "./ascii-art";
 
 interface ProjectDetailProps {
   project: {
@@ -30,6 +29,56 @@ interface ProjectDetailProps {
   hasNext?: boolean;
 }
 
+function ImagePlaceholder({ label }: { label?: string }) {
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center bg-[var(--color-surface)] text-[var(--color-text-dim)]">
+      <svg
+        className="w-10 h-10 mb-2 opacity-50"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+        />
+      </svg>
+      <span className="font-mono text-xs">
+        {label || "[ NO_PREVIEW_AVAILABLE ]"}
+      </span>
+    </div>
+  );
+}
+
+function SafeImage({
+  src,
+  alt,
+  className,
+  placeholderLabel,
+}: {
+  src?: string;
+  alt: string;
+  className?: string;
+  placeholderLabel?: string;
+}) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+
+  if (!src || failedSrc === src) {
+    return <ImagePlaceholder label={placeholderLabel} />;
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      onError={() => setFailedSrc(src)}
+    />
+  );
+}
+
 export function ProjectDetailModal({
   project,
   onClose,
@@ -43,7 +92,12 @@ export function ProjectDetailModal({
   >("overview");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Close on escape key
+  const hasDemo = Boolean(project.demo && project.demo.trim().length > 0);
+  const hasCode = Boolean(project.code && project.code.trim().length > 0);
+  const hasScreenshots = Boolean(
+    project.screenshots && project.screenshots.length > 0,
+  );
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -66,6 +120,10 @@ export function ProjectDetailModal({
     return () =>
       window.removeEventListener("keydown", handleKeyDown, { capture: true });
   }, [onClose, hasPrevious, hasNext, onNavigatePrevious, onNavigateNext]);
+
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [project.id]);
 
   const navigateGallery = (direction: "prev" | "next") => {
     if (!project.screenshots || project.screenshots.length === 0) return;
@@ -230,60 +288,81 @@ export function ProjectDetailModal({
                         </div>
 
                         <div className="flex gap-4 mt-6">
-                          <a
-                            href={project.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <PixelButton variant="primary" size="sm">
-                              <span>Live Demo</span>
-                              <svg
-                                className="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                                ></path>
-                              </svg>
+                          {hasDemo ? (
+                            <a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <PixelButton variant="primary" size="sm">
+                                <span>Live Demo</span>
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                  ></path>
+                                </svg>
+                              </PixelButton>
+                            </a>
+                          ) : (
+                            <PixelButton
+                              variant="primary"
+                              size="sm"
+                              disabled
+                              title="Demo not available yet"
+                            >
+                              <span>In Development</span>
                             </PixelButton>
-                          </a>
+                          )}
 
-                          <a
-                            href={project.code}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <PixelButton variant="secondary" size="sm">
-                              <span>Source Code</span>
-                              <svg
-                                className="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                                ></path>
-                              </svg>
+                          {hasCode ? (
+                            <a
+                              href={project.code}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <PixelButton variant="secondary" size="sm">
+                                <span>Source Code</span>
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                                  ></path>
+                                </svg>
+                              </PixelButton>
+                            </a>
+                          ) : (
+                            <PixelButton
+                              variant="secondary"
+                              size="sm"
+                              disabled
+                              title="Source not public"
+                            >
+                              <span>Source Private</span>
                             </PixelButton>
-                          </a>
+                          )}
                         </div>
                       </div>
 
                       <div className="md:w-[40%]">
                         <div className="border-2 border-[var(--color-border)] bg-[var(--color-background)] h-64 flex items-center justify-center overflow-hidden">
-                          {/* Main project image */}
-                          <img
+                          <SafeImage
                             src={project.image}
                             alt={project.title}
                             className="max-w-full max-h-full object-contain"
@@ -350,8 +429,8 @@ export function ProjectDetailModal({
                           Technical details coming soon...
                         </p>
                         <p className="text-[var(--color-text-secondary)] mt-2">
-                          $ echo "Check back later for detailed technical
-                          documentation"
+                          $ echo &quot;Check back later for detailed technical
+                          documentation&quot;
                         </p>
                       </div>
                     )}
@@ -377,19 +456,19 @@ export function ProjectDetailModal({
                       </div>
                     </div>
 
-                    <div className="mt-8">
-                      <h4 className="text-md font-bold text-[var(--color-accent)] mb-4">
-                        Code Snippet
-                      </h4>
-                      <div className="bg-[var(--color-background)] border border-[var(--color-border)] p-4 rounded overflow-x-auto">
-                        <pre className="font-mono text-sm text-[var(--color-text-primary)]">
-                          <code>
-                            {project.codeSnippet ||
-                              "// No code snippet available"}
-                          </code>
-                        </pre>
-                      </div>
-                    </div>
+                    {project.codeSnippet &&
+                      project.codeSnippet.trim().length > 0 && (
+                        <div className="mt-8">
+                          <h4 className="text-md font-bold text-[var(--color-accent)] mb-4">
+                            Code Snippet
+                          </h4>
+                          <div className="bg-[var(--color-background)] border border-[var(--color-border)] p-4 rounded overflow-x-auto">
+                            <pre className="font-mono text-sm text-[var(--color-text-primary)]">
+                              <code>{project.codeSnippet}</code>
+                            </pre>
+                          </div>
+                        </div>
+                      )}
                   </div>
                 )}
 
@@ -399,100 +478,100 @@ export function ProjectDetailModal({
                       &gt; project_gallery.view()
                     </h3>
 
-                    {project.screenshots && project.screenshots.length > 0 ? (
+                    {hasScreenshots ? (
                       <div className="space-y-4">
                         {/* Main Display Area */}
                         <div className="group relative border-2 border-[var(--color-border)] bg-[var(--color-surface)] aspect-video w-full overflow-hidden flex items-center justify-center">
-                          {/* Gallery image */}
-                          <img
-                            src={project.screenshots[currentImageIndex]}
+                          <SafeImage
+                            src={project.screenshots![currentImageIndex]}
                             alt={`Screenshot ${currentImageIndex + 1}`}
                             className="w-full h-full object-contain"
                           />
 
-                          {/* Navigation Arrows Overlay - Visible on hover */}
-                          <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigateGallery("prev");
-                              }}
-                              className="pointer-events-auto bg-[var(--color-background)]/80 text-[var(--color-accent)] p-2 border border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all shadow-lg"
-                              aria-label="Previous image"
-                            >
-                              <svg
-                                className="w-8 h-8"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                          {project.screenshots!.length > 1 && (
+                            <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigateGallery("prev");
+                                }}
+                                className="pointer-events-auto bg-[var(--color-background)]/80 text-[var(--color-accent)] p-2 border border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all shadow-lg"
+                                aria-label="Previous image"
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M15 19l-7-7 7-7"
-                                />
-                              </svg>
-                            </button>
+                                <svg
+                                  className="w-8 h-8"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M15 19l-7-7 7-7"
+                                  />
+                                </svg>
+                              </button>
 
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigateGallery("next");
-                              }}
-                              className="pointer-events-auto bg-[var(--color-background)]/80 text-[var(--color-accent)] p-2 border border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all shadow-lg"
-                              aria-label="Next image"
-                            >
-                              <svg
-                                className="w-8 h-8"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigateGallery("next");
+                                }}
+                                className="pointer-events-auto bg-[var(--color-background)]/80 text-[var(--color-accent)] p-2 border border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-background)] transition-all shadow-lg"
+                                aria-label="Next image"
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M9 5l7 7-7 7"
-                                />
-                              </svg>
-                            </button>
-                          </div>
+                                <svg
+                                  className="w-8 h-8"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 5l7 7-7 7"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          )}
 
-                          {/* Image Counter Badge */}
-                          <div className="absolute bottom-4 right-4 bg-[var(--color-background)]/90 border border-[var(--color-border)] px-3 py-1 font-mono text-xs text-[var(--color-accent)] shadow-md">
-                            {currentImageIndex + 1} /{" "}
-                            {project.screenshots.length}
-                          </div>
+                          {project.screenshots!.length > 1 && (
+                            <div className="absolute bottom-4 right-4 bg-[var(--color-background)]/90 border border-[var(--color-border)] px-3 py-1 font-mono text-xs text-[var(--color-accent)] shadow-md">
+                              {currentImageIndex + 1} /{" "}
+                              {project.screenshots!.length}
+                            </div>
+                          )}
                         </div>
 
-                        {/* Thumbnail navigation (FIXED) */}
-                        <div className="flex overflow-x-auto gap-3 pb-2 pt-1 scrollbar-thin scrollbar-thumb-[var(--color-border)]">
-                          {project.screenshots.map((src, index) => (
-                            <button
-                              key={index}
-                              onClick={() => setCurrentImageIndex(index)}
-                              /* FIXED: Added w-32 (fixed width) and overflow-hidden so the image can't break out */
-                              className={`relative w-32 flex-shrink-0 aspect-video overflow-hidden border-2 transition-all 
+                        {project.screenshots!.length > 1 && (
+                          <div className="flex overflow-x-auto gap-3 pb-2 pt-1">
+                            {project.screenshots!.map((src, index) => (
+                              <button
+                                key={index}
+                                onClick={() => setCurrentImageIndex(index)}
+                                className={`relative w-32 flex-shrink-0 aspect-video overflow-hidden border-2 transition-all
               ${
                 currentImageIndex === index
                   ? "border-[var(--color-accent)] opacity-100 ring-1 ring-[var(--color-accent)]"
                   : "border-[var(--color-border)] opacity-50 hover:opacity-100 hover:border-[var(--color-text-dim)]"
               }`}
-                              aria-label={`View screenshot ${index + 1}`}
-                            >
-                              <img
-                                src={src}
-                                alt={`Thumbnail ${index + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                              {/* Overlay number on thumbnails */}
-                              <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-background)]/60 text-[var(--color-text-primary)] font-mono text-xs opacity-0 hover:opacity-100 transition-opacity">
-                                {index + 1}
-                              </div>
-                            </button>
-                          ))}
-                        </div>
+                                aria-label={`View screenshot ${index + 1}`}
+                              >
+                                <SafeImage
+                                  src={src}
+                                  alt={`Thumbnail ${index + 1}`}
+                                  className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-background)]/60 text-[var(--color-text-primary)] font-mono text-xs opacity-0 hover:opacity-100 transition-opacity">
+                                  {index + 1}
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ) : (
                       /* Fallback if no screenshots */

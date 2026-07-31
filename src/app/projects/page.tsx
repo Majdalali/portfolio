@@ -69,29 +69,37 @@ export function KeyboardNavProvider({ children }) {
     id: 2,
     title: "payroll-attendance.svelte",
     description:
-      "Comprehensive payroll and attendance management system for educational institutions. Streamlines employee tracking, payroll processing, and administrative workflows.",
+      "Full-stack payroll, attendance, and HR platform for educational institutions. Combines employee/teacher punch tracking, leave and overtime workflows, automated payroll processing, and real-time notifications in one bilingual application.",
     tags: [
       "SvelteKit",
       "TypeScript",
       "Node.js",
       "Express",
       "Supabase",
-      "SQL",
-      "Mariadb",
+      "MySQL",
+      "MariaDB",
+      "WebSocket",
+      "Docker",
     ],
-    image: "/previews/fgp/main.png",
-    screenshots: ["/previews/fgp/main.png", "/previews/fgp/one.png"],
+    image: "/previews/fgp/dashboard.png",
+    screenshots: [
+      "/previews/fgp/login.png",
+      "/previews/fgp/dashboard.png",
+      "/previews/fgp/punch.png",
+      "/previews/fgp/checkins.png",
+      "/previews/fgp/attendance-hub.png",
+    ],
     demo: "https://payroll.furqangroup.com",
     code: "https://github.com/",
     featured: true,
     problem:
-      "Manual attendance and payroll management is time-consuming, error-prone, and lacks transparency. Institutions struggle with tracking employee hours, generating accurate payrolls, and maintaining compliance.",
+      "Manual attendance and payroll management across employees, teachers, and examiners is time-consuming, error-prone, and lacks transparency. Institutions struggle with tracking shift and class-based hours, managing leave/overtime approvals, generating accurate payrolls, and keeping staff informed in real time.",
     solution:
-      "Automated attendance tracking and payroll generation using a web-based interface and RESTful APIs. Key technologies include SvelteKit for the frontend, Node.js/Express for the backend, Supabase for data storage, and Handlebars for dynamic email notifications.",
+      "A bilingual (Arabic/English) SvelteKit frontend backed by an Express API, with Supabase handling authentication and MySQL/MariaDB storing employee, attendance, and payroll data. Automated payroll generation, PDF/email output via Handlebars, and a WebSocket-based notification system keep administrators and staff in sync in real time.",
     impact:
-      "Significant reduction in manual errors and administrative workload. Faster payroll processing and reporting. Improved transparency and auditability. Enhanced user experience for both administrators and employees.",
+      "Significant reduction in manual errors and administrative workload. Faster payroll processing and reporting. Improved transparency and auditability across HR workflows. Real-time visibility into attendance and approvals for both administrators and employees.",
     techDetails:
-      "Frontend uses SvelteKit with TypeScript and Vite. Backend is Node.js/Express with Supabase integration. Features include automated attendance workflows, email notifications with dynamic Handlebars templates, PDF report generation, Swagger API documentation, role-based authentication middleware, and a robust deployment pipeline using GitHub Actions and PM2.",
+      "Frontend uses SvelteKit 2 with Svelte 5, TypeScript, and Vite, styled with Tailwind CSS 4. Backend is Node.js/Express with Supabase Auth for identity and MySQL/MariaDB (via connection pooling) for application data. Features include shift and class-based attendance tracking, leave/overtime/adjustment request workflows, automated payroll and Telawa payroll flows, PDF report generation, a WebSocket server for real-time notifications, Swagger/OpenAPI documentation, an n8n-based Telegram bot integration for attendance notifications, and a production deployment pipeline using Docker, Traefik, PM2, and GitHub Actions CI/CD.",
     codeSnippet: `// Modular API Routing - routes/index.js
 const express = require('express');
 const router = express.Router();
@@ -118,63 +126,29 @@ module.exports = router;`,
   },
   {
     id: 3,
-    title: "fcms.vue",
+    title: "wasco.tsx",
     description:
-      "Faculty Course Management System for universities. Digitizes academic processes including course evaluations, user management, notifications, and file uploads with role-based access.",
-    tags: [
-      "Vue.js",
-      "TypeScript",
-      "Node.js",
-      "Express",
-      "Firebase",
-      "Socket.io",
-      "Tailwind",
-    ],
-    image: "/previews/fcms/main.png",
+      "Bilingual (Arabic/English) B2B industrial equipment catalog. Custom design system and SEO-optimized architecture built for international B2B markets. Currently in development.",
+    tags: ["Next.js", "Payload CMS", "TypeScript", "Tailwind", "PostgreSQL"],
+    image: "/previews/wasco/hero.png",
     screenshots: [
-      "/previews/fcms/one.png",
-      "/previews/fcms/two.png",
-      "/previews/fcms/three.png",
-      "/previews/fcms/four.png",
+      "/previews/wasco/hero.png",
+      "/previews/wasco/blog.png",
+      "/previews/wasco/admin.png",
+      "/previews/wasco/landing-page.png",
     ],
-    demo: "https://example.com",
-    code: "https://github.com/username/project",
+    demo: "",
+    code: "https://github.com/Majdalali/wasco",
     featured: true,
     problem:
-      "Manual academic management processes are time-consuming, error-prone, and lack transparency. Institutions need a unified platform to manage course evaluations, user roles, notifications, and file submissions efficiently.",
+      "Industrial equipment buyers need a bilingual, SEO-friendly catalog that works for both Arabic (RTL) and English (LTR) audiences, with a content structure administrators can manage without developer involvement.",
     solution:
-      "A modular, full-stack web application with RESTful APIs for all core operations, real-time notifications using Socket.io, role-based access control (admin, coordinator, lecturer, student), and Firebase integration for authentication and file storage.",
+      "A Next.js 15 App Router frontend paired with Payload CMS for content management, using next-intl for bilingual routing and a custom dark industrial design system built around tonal surface layering.",
     impact:
-      "Streamlined academic workflows, reducing manual paperwork. Improved transparency and accountability in course evaluations. Enhanced user experience for students, lecturers, and admins. Scalable architecture ready for future expansion.",
+      "In active development — bilingual SEO architecture and CMS-driven content structure are in place, with frontend and UI work ongoing.",
     techDetails:
-      "Backend uses Node.js/Express with Firebase Admin SDK for authentication and storage. Frontend is Vue.js with Vite, TypeScript, and Tailwind CSS. Features real-time communication via Socket.io, modular code organization (controllers, models, middleware, services), file upload management for CVs and documents, and responsive design with SCSS custom styles.",
-    codeSnippet: `// src/middleware/roleAuth.js
-function roleAuth(roles) {
-  return function (req, res, next) {
-    if (roles.includes(req.user.role)) {
-      next();
-    } else {
-      res.status(403).send('Forbidden');
-    }
-  };
-}
-
-module.exports = roleAuth;
-
-// Usage in routes
-const roleAuth = require('../middleware/roleAuth');
-
-// Only admins and coordinators can access
-router.get('/evaluations', 
-  roleAuth(['admin', 'coordinator']), 
-  evaluationController.getAll
-);
-
-// Only lecturers can submit grades
-router.post('/grades', 
-  roleAuth(['lecturer']), 
-  gradeController.submit
-);`,
+      "Built on Next.js 15 App Router, Payload CMS v3, Tailwind CSS v4, and next-intl for bilingual (Arabic/English) routing and RTL/LTR layout support. Custom design system with a dark industrial palette and tonal surface layering. Uses git worktrees to isolate feature branches during development.",
+    codeSnippet: ``,
   },
   {
     id: 4,
@@ -188,8 +162,8 @@ router.post('/grades',
       "/previews/eye/two.png",
       "/previews/eye/three.png",
     ],
-    demo: "https://example.com",
-    code: "https://github.com/username/project",
+    demo: "",
+    code: "https://github.com/Majdalali/EyeBaituna",
     featured: true,
     problem:
       "Parents face challenges protecting children from harmful online content while managing screen time. Lack of tools to enforce time limits, track browsing behavior, and control multiple devices makes manual oversight impractical.",
@@ -257,7 +231,7 @@ class ApiService {
       "/previews/scolior/five.png",
     ],
     demo: "https://scolior.com",
-    code: "https://github.com/username/project",
+    code: "",
     featured: true,
     problem:
       "Educational institutions, particularly Quran schools, lack a unified platform to manage multi-tenant operations. Manual administration of students, teachers, classes, attendance, and content is time-consuming and error-prone. Subscription management and tenant onboarding add operational complexity.",
@@ -346,7 +320,7 @@ const dashboardStats = ref([
       "/previews/registration/two.png",
     ],
     demo: "https://furqanshop.com/new-students/",
-    code: "https://github.com/username/project",
+    code: "",
     featured: true,
     problem:
       "The original student registration page lacked intuitive design, provided no timezone awareness for different users, and the checkout process was confusing with poor payment method organization. Students struggled with unclear pricing summaries and payment options.",
@@ -418,7 +392,7 @@ class TimezoneDisplay {
     image: "/previews/eservices/main.png",
     screenshots: ["/previews/eservices/main.png"],
     demo: "https://eservices.fg2020.com",
-    code: "https://github.com/username/project",
+    code: "",
     featured: true,
     problem:
       "The course management portal lacked effective product listing UI, had performance issues with course data loading, and needed enhancements in user experience. Bug fixes were critical for stability, and new features were required to meet evolving business needs.",
@@ -497,18 +471,97 @@ export class CourseListingComponent implements OnInit {
   }
 }`,
   },
+
+  {
+    id: 9,
+    title: "flms.node",
+    description:
+      "Multi-tenant SaaS LMS platform with role-based access for administrators, teachers, and students. Currently in development.",
+    tags: ["Node.js", "Next.js", "PostgreSQL"],
+    image: "/previews/flms/main.png",
+    screenshots: ["/previews/flms/main.png"],
+    demo: "",
+    code: "",
+    featured: false,
+    problem:
+      "Educational institutions need a structured, multi-tenant learning management system that supports role-based workflows for administrators, teachers, and students under one platform.",
+    solution:
+      "A SaaS LMS platform built with Next.js and Node.js, using PostgreSQL for data storage, with role-based access control separating administrator, teacher, and student experiences.",
+    impact:
+      "In active development — core role-based access and platform architecture are in place.",
+    techDetails:
+      "Backend built on Node.js with a PostgreSQL database. Frontend uses Next.js. Multi-tenant architecture supports multiple institutions on a single platform with isolated data and role-based permissions.",
+    codeSnippet: ``,
+  },
+  {
+    id: 8,
+    title: "fcms.vue",
+    description:
+      "Faculty Course Management System for universities. Digitizes academic processes including course evaluations, user management, notifications, and file uploads with role-based access.",
+    tags: [
+      "Vue.js",
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "Firebase",
+      "Socket.io",
+      "Tailwind",
+    ],
+    image: "/previews/fcms/main.png",
+    screenshots: [
+      "/previews/fcms/one.png",
+      "/previews/fcms/two.png",
+      "/previews/fcms/three.png",
+      "/previews/fcms/four.png",
+    ],
+    demo: "",
+    code: "https://github.com/Majdalali/fcms",
+    featured: true,
+    problem:
+      "Manual academic management processes are time-consuming, error-prone, and lack transparency. Institutions need a unified platform to manage course evaluations, user roles, notifications, and file submissions efficiently.",
+    solution:
+      "A modular, full-stack web application with RESTful APIs for all core operations, real-time notifications using Socket.io, role-based access control (admin, coordinator, lecturer, student), and Firebase integration for authentication and file storage.",
+    impact:
+      "Streamlined academic workflows, reducing manual paperwork. Improved transparency and accountability in course evaluations. Enhanced user experience for students, lecturers, and admins. Scalable architecture ready for future expansion.",
+    techDetails:
+      "Backend uses Node.js/Express with Firebase Admin SDK for authentication and storage. Frontend is Vue.js with Vite, TypeScript, and Tailwind CSS. Features real-time communication via Socket.io, modular code organization (controllers, models, middleware, services), file upload management for CVs and documents, and responsive design with SCSS custom styles.",
+    codeSnippet: `// src/middleware/roleAuth.js
+function roleAuth(roles) {
+  return function (req, res, next) {
+    if (roles.includes(req.user.role)) {
+      next();
+    } else {
+      res.status(403).send('Forbidden');
+    }
+  };
+}
+
+module.exports = roleAuth;
+
+// Usage in routes
+const roleAuth = require('../middleware/roleAuth');
+
+// Only admins and coordinators can access
+router.get('/evaluations',
+  roleAuth(['admin', 'coordinator']),
+  evaluationController.getAll
+);
+
+// Only lecturers can submit grades
+router.post('/grades',
+  roleAuth(['lecturer']),
+  gradeController.submit
+);`,
+  },
 ];
 
-// Extract all unique tags from project data
+type Project = (typeof projectsData)[number];
 const allTags = Array.from(
   new Set(projectsData.flatMap((project) => project.tags)),
 );
 
 export default function ProjectsPage() {
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
-    null,
-  );
-  const [modalProject, setModalProject] = useState<any>(null);
+  const [modalProject, setModalProject] = useState<Project | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState("All");
   const [filteredProjects, setFilteredProjects] = useState(projectsData);
@@ -547,7 +600,6 @@ export default function ProjectsPage() {
   // Close modal handler
   const handleCloseModal = () => {
     setModalProject(null);
-    setSelectedProjectId(null);
   };
 
   // Filter projects based on search term and selected tag
@@ -647,7 +699,6 @@ export default function ProjectsPage() {
                     project={project}
                     currentDomain={currentDomain}
                     onOpenModal={() => {
-                      setSelectedProjectId(project.id);
                       setModalProject(project);
                     }}
                   />
@@ -728,12 +779,20 @@ function ProjectCard({
   currentDomain,
   onOpenModal,
 }: {
-  project: any;
+  project: Project;
   currentDomain: string;
   onOpenModal: () => void;
 }) {
+  const [imgFailed, setImgFailed] = useState(false);
+
   // Replace example.com with current domain
-  const demoUrl = project.demo.replace("https://example.com", currentDomain);
+  const demoUrl = project.demo
+    ? project.demo.replace("https://example.com", currentDomain)
+    : "";
+
+  const hasDemo = Boolean(demoUrl && demoUrl.trim().length > 0);
+  const hasCode = Boolean(project.code && project.code.trim().length > 0);
+  const hasImage = Boolean(project.image && project.image.trim().length > 0);
 
   return (
     <TerminalCard
@@ -744,64 +803,91 @@ function ProjectCard({
     >
       <div className="mt-4 mb-6">
         <div className="relative h-48 border border-[var(--color-border)] bg-[var(--color-background)]">
-          <div className="absolute inset-0 flex items-center justify-center text-[var(--color-text-dim)]">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="max-h-full max-w-full object-contain"
-            />
-          </div>
+          {hasImage && !imgFailed ? (
+            <div className="absolute inset-0 flex items-center justify-center text-[var(--color-text-dim)]">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="max-h-full max-w-full object-contain"
+                onError={() => setImgFailed(true)}
+              />
+            </div>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-surface)] text-[var(--color-text-dim)]">
+              <span className="font-mono text-xs">
+                [ NO_PREVIEW_AVAILABLE ]
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="flex gap-3 mt-4">
-        <a
-          href={demoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-xs font-mono text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)] transition-colors"
-        >
-          <span>Demo</span>
-          <svg
-            className="w-3 h-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+      <div className="flex gap-3 mt-4 items-center">
+        {hasDemo ? (
+          <a
+            href={demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs font-mono text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)] transition-colors"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-            ></path>
-          </svg>
-        </a>
+            <span>Demo</span>
+            <svg
+              className="w-3 h-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              ></path>
+            </svg>
+          </a>
+        ) : (
+          <span
+            className="inline-flex items-center gap-1 text-xs font-mono text-[var(--color-text-dim)] cursor-not-allowed"
+            title="Demo not available yet"
+          >
+            Demo
+          </span>
+        )}
 
         <span className="text-[var(--color-text-dim)]">|</span>
 
-        <a
-          href={project.code}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex  items-center gap-1 text-xs font-mono text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)] transition-colors"
-        >
-          <span>Code</span>
-          <svg
-            className="w-3 h-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+        {hasCode ? (
+          <a
+            href={project.code}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs font-mono text-[var(--color-accent)] hover:text-[var(--color-accent-secondary)] transition-colors"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-            ></path>
-          </svg>
-        </a>
+            <span>Code</span>
+            <svg
+              className="w-3 h-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+              ></path>
+            </svg>
+          </a>
+        ) : (
+          <span
+            className="inline-flex items-center gap-1 text-xs font-mono text-[var(--color-text-dim)] cursor-not-allowed"
+            title="Source not public"
+          >
+            Code
+          </span>
+        )}
 
         <span className="text-[var(--color-text-dim)]">|</span>
 
