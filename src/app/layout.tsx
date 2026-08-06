@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, IBM_Plex_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { KeyboardNavProvider } from '@/components/providers/keyboard-nav-provider';
 import { Header } from '@/components/layout/header';
@@ -52,6 +53,7 @@ export default function RootLayout({
               </TooltipProvider>
           </ToastProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
